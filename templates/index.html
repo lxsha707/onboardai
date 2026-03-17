@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OnboardAI OS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+font-family:Inter;
+background:linear-gradient(120deg,#020617,#020617,#0f172a);
+color:white;
+padding:40px;
+}
+.card{
+background:rgba(255,255,255,0.05);
+padding:25px;
+border-radius:20px;
+margin-bottom:25px;
+}
+button{
+background:linear-gradient(90deg,#6366f1,#22d3ee);
+border:none;
+padding:12px;
+border-radius:12px;
+color:white;
+cursor:pointer;
+}
+.roadmap{
+height:300px;
+overflow:auto;
+background:black;
+padding:15px;
+border-radius:15px;
+}
+.chatbox{
+height:250px;
+overflow:auto;
+background:black;
+padding:15px;
+border-radius:15px;
+}
+input{
+padding:10px;
+border-radius:10px;
+border:none;
+margin:5px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>AI Onboarding Copilot</h1>
+
+<div class="card">
+<h2>Generate Roadmap</h2>
+<form id="form">
+<input name="role" placeholder="Target Role">
+<input type="file" name="resume">
+<button>Generate</button>
+</form>
+</div>
+
+<div class="card">
+<h2>Roadmap</h2>
+<div class="roadmap" id="roadmap"></div>
+</div>
+
+<div class="card">
+<h2>AI Mentor</h2>
+<div class="chatbox" id="chatbox"></div>
+<input id="msg">
+<button onclick="chat()">Send</button>
+</div>
+
+<script>
+
+form.onsubmit = async e=>{
+e.preventDefault()
+
+let data = new FormData(form)
+
+let res = await fetch("/generate",{method:"POST",body:data})
+let j = await res.json()
+
+roadmap.innerText = j.plan
+}
+
+async function chat(){
+
+let msg = document.getElementById("msg").value
+
+let res = await fetch("/chat",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({msg})
+})
+
+let j = await res.json()
+
+chatbox.innerHTML += "<p>YOU: "+msg+"</p>"
+chatbox.innerHTML += "<p>AI: "+j.reply+"</p>"
+}
+
+</script>
+
+</body>
+</html>
