@@ -1,7 +1,7 @@
 import openai
 import PyPDF2
 
-openai.api_key = "PASTE_YOUR_OPENAI_KEY"
+openai.api_key = "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"
 
 
 def extract_text(file):
