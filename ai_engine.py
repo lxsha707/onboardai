@@ -1,7 +1,11 @@
 import openai
 import PyPDF2
 
-openai.api_key = ""
+from dotenv import load_dotenv
+
+load_dotenv()
+
+openai.api_key = os.getenv("OPENAI_KEY")
 
 
 def extract_text(file):
